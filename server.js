@@ -20,6 +20,7 @@ commandList.push(require('./commands/clip.js'));
 commandList.push(require('./commands/evan.js'));
 commandList.push(require('./commands/victory_royale.js'));
 commandList.push(require('./commands/mb.js'));
+commandList.push(require('./commands/brazzers.js'));
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 

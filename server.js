@@ -4,6 +4,8 @@
 // init project
 const express = require('express');
 const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 var cors = require('cors');
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
@@ -53,7 +55,27 @@ for(let i=0;i<commandList.length;++i) {
   });
 }
 
+io.on('connection', function(socket) {
+  console.log('User connected.');
+  for(let i=0;i<commandList.length;++i) {
+    
+    //Add listener to command
+    socket.on(commandList[i].command, function(username) {
+      commandList[i].get()
+      .then(result => {
+        //Emit command results
+        socket.emit('results', result);
+      })
+      .catch( err => console.log(err));
+    });
+    
+    //Add command to available commands
+    socket.emit('commands', commandList[i].command);
+  }
+
+});
+
 // listen for requests :)
-const listener = app.listen(process.env.PORT, function() {
+const listener = http.listen(process.env.PORT, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });

@@ -11,17 +11,20 @@
 <html lang="en">
   <head>
     <title>Welcome to Glitch!</title>
-    <meta name="description" content="A cool thing made with Glitch">
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch" />
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://glitch.com/edit/favicon-app.ico"
+      type="image/x-icon"
+    />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css">
-    
-    <!-- import the webpage's client-side javascript file -->
-    <script src="/client.js" defer></script>
+    <link rel="stylesheet" href="/style.css" />
+
   </head>
   <body>
     <header>
@@ -33,19 +36,37 @@
     <main>
       <p class="bold">Oh hi</p>
       <p>
-      I am Bot Conglomorate. Have you read my README?
+        I am Bot Conglomorate. Have you read my README?
+        <br />
+        I am also open source here!
+        <br /><br />
+        <a href="https://github.com/romedtino/bot-conglomorate"
+          >https://github.com/romedtino/bot-conglomorate</a
+        >
       </p>
-
+      <div>
+        Sample current commands below:
+        <br />
+        <div id="commands"></div>
+        <br/>
+        <br/>
+        <div>
+          Output Window
+        </div>
+        <div  style="border:1px solid black;" id="output">
+        </div>
+      </div>
     </main>
 
-    <footer>
-      Made with <a href="https://glitch.com">Glitch</a>!
-    </footer>
+    <footer>Made with <a href="https://glitch.com">Glitch</a>!</footer>
 
     <!-- include the Glitch button to show what the webpage is about and
           to make it easier for folks to view source and remix -->
     <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
     <script src="https://button.glitch.me/button.js"></script>
 
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="/client.js" defer></script>
   </body>
 </html>

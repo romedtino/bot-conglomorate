@@ -32,7 +32,7 @@ function execute(args) {
 function get() {
   return new Promise(resolve => {
     var choice = logic();
-    resolve(`botcongo says, "Wow"! <img width="480" src="${choice}"`);
+    resolve(`botcongo says, "Wow"! ${choice}`);
   });
 }
 

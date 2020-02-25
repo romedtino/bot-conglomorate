@@ -1,5 +1,5 @@
 var request = require("request");
-var cat = "http://aws.random.cat/meow.php";
+var cat = "https://api.thecatapi.com/v1/images/search";
 
 var command = "meow";
 
@@ -19,10 +19,16 @@ function logic() {
         json: true
       },
       function(error, response, body) {
-        if (body.file === undefined) {
-          resolve(`Sorry the meow API is overloaded... try again later.`);
-        } else {
-          resolve(`${body.file}`);
+        try {
+          if (error || response.statusCode != 200) {
+            resolve(`Sorry the meow API is overrun by doggos... try again later.`);
+          } else if (body[0]["url"] === undefined) {
+            resolve(`Sorry the meow API is overloaded... try again later.`);
+          } else {
+            resolve(`${body[0]["url"]}`);
+          }
+        } catch(e) {
+          console.log(`Something went turribl-turribly wrong in the meow command:\n error - ${error} \nresponse - ${JSON.stringify(response)} \n body - ${JSON.stringify(body)}`);
         }
       }
     );

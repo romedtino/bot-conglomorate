@@ -8,8 +8,6 @@ The problem is that it had a lot of personal commands that just wouldn't work (o
 In comes bot-conglomorate. This external bot allows me to create a bot outside of the Discord universe and just query specific commands. 
 This allows any number of Discord bots to *pick and choose* the commands they want to use for their bot.
 
-Try some of the commands here! - https://bot-conglomorate.glitch.me/
-
 Available commands
 =================
 All available commands can be found in the commands directory.

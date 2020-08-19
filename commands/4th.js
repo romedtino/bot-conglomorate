@@ -97,6 +97,7 @@ function execute(args) {
         let current_time = Date.now() / 1000;
         let res_text = "";
         if (invocated + timeout_sec < current_time) {
+          reset();
           res_text = `<@${args.client}> is trying to summon a 4th!`;
           squad_name = squad_names[randRange(0, squad_names.length)];
           joined.push(`${args.username}`);
@@ -118,7 +119,7 @@ function execute(args) {
 
         if (joined.length >= total) {
           res_text = `<@${args.client}> **GET HYPED SON!** \nSQUAD ${squad_name} \nis \n**READY!**\n     **PACKED**\n         & **LOADED!**\n\n You can still come on down the *HYPETRAIN*!`;
-          result = `https://media2.giphy.com/media/f9SSWBQExDLV7AXas6/giphy.gif`;
+          result = `https://media1.tenor.com/images/ffa0709d3d01ee86f926e81acfc0f1e7/tenor.gif`;
         }
 
         let squad_mems = "";

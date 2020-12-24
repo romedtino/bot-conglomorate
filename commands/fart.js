@@ -3,7 +3,7 @@ var command = "fart";
 function help_info(prefix) {
   var help = {};
   help["command"] = command;
-  help["help"] = `Fart on a user. Usage: \`${prefix}${command} <USERNAME>\``;
+  help["help"] = `Fart on a user`;
 
   return help;
 }
@@ -22,7 +22,23 @@ function get() {
   });
 }
 
+function get_slash() {
+  return {
+    name: command,
+    description: help_info("/").help,
+    options: [
+      {
+        name: "fartee",
+        description: "Someone to fart on",
+        type: 3,
+        required: true
+      }
+    ]
+  }
+}
+
 module.exports.execute = execute;
 module.exports.help_info = help_info;
 module.exports.command = command;
 module.exports.get = get;
+module.exports.get_slash = get_slash;

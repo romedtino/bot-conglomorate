@@ -1,7 +1,7 @@
 var imgur = require("imgur");
 var jimp = require("jimp");
 
-var jsCommand = "brazzers";
+var command = "brazzers";
 
 //Brazzers logo
 var brazzersLogoURL = "https://i.imgur.com/gSnHoXE.jpg";
@@ -14,11 +14,10 @@ var outputDir = "/tmp";
 
 var album = "tGltqql";
 
-function help_info() {
+function help_info(prefix) {
   var help = {};
-  help["command"] = jsCommand;
-  help["help"] =
-    "Put the Brazzers logo on an image. Usage: `!brazzers [URL to image]`";
+  help["command"] = command;
+  help["help"] =`Put the Brazzers logo on an image`;
 
   return help;
 }
@@ -91,7 +90,23 @@ function get() {
   });
 }
 
+function get_slash() {
+  return {
+    name: command,
+    description: help_info("/").help,
+    options: [
+      {
+        name: "url",
+        description: "URL to brazzify",
+        type: 3,
+        required: false
+      }
+    ]
+  }
+}
+
 module.exports.execute = execute;
 module.exports.help_info = help_info;
-module.exports.command = jsCommand;
+module.exports.command = command;
 module.exports.get = get;
+module.exports.get_slash = get_slash;

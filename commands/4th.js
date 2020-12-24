@@ -32,9 +32,7 @@ var squad_name = "";
 function help_info(prefix) {
   var help = {};
   help["command"] = command;
-  help[
-    "help"
-  ] = `WE NEED A 4th!!!!. Usage: \`${prefix}${command}\`\n You can also add a custom message when you join a squad by typing \`${prefix}${command}\` [message] (e.g. \`${prefix}${command}\` Let's Rock!) and that will be displayed whenever you call for a 4th.`;
+  help["help"] = `WE NEED A 4th!!!!. ${prefix}${command} [catchprase] to store catchphrase`;
 
   return help;
 }
@@ -124,7 +122,7 @@ function execute(args) {
 
         let squad_mems = "";
         joined.forEach(entry => (squad_mems += `\`${entry}\` `));
-        res_text += ` Type \`!4th\` to join the call to arms!\nSquad  [[ ${squad_name} ]] members:\n ${squad_mems}\n ${result}`;
+        res_text += ` Type \`/4th\` to join the call to arms!\nSquad  [[ ${squad_name} ]] members:\n ${squad_mems}\n ${result}`;
 
         resolve(res_text);
       });
@@ -141,7 +139,22 @@ function get() {
   });
 }
 
+function get_slash() {
+  return {
+    name: command,
+    description: help_info("/").help,
+    options: [
+      {
+        name: "catchphrase",
+        description: "Your catchphrase",
+        type: 3,
+      }
+    ]
+  }
+}
+
 module.exports.execute = execute;
 module.exports.help_info = help_info;
 module.exports.command = command;
 module.exports.get = get;
+module.exports.get_slash = get_slash;

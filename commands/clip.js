@@ -11,9 +11,7 @@ var login = "";
 function help_info(prefix) {
   var help = {};
   help["command"] = command;
-  help[
-    "help"
-  ] = `Grabs the latest Twitch.tv clip of a given user. Usage: \`${prefix}${command} [Twitch Username]\`\n    e.g. \`${prefix}${command} Sajedene\``;
+  help["help"] = `Grabs the latest Twitch.tv clip of a given user. e.g. ${prefix}${command} Sajedene`;
 
   return help;
 }
@@ -101,7 +99,23 @@ function get() {
   return getIdAndClip(args);
 }
 
+function get_slash() {
+  return {
+    name: command,
+    description: help_info("/").help,
+    options: [
+      {
+        name: "user",
+        description: "Twitch username to get clip from",
+        type: 3,
+        required: true
+      }
+    ]
+  }
+}
+
 module.exports.execute = execute;
 module.exports.help_info = help_info;
 module.exports.command = command;
 module.exports.get = get;
+module.exports.get_slash = get_slash;

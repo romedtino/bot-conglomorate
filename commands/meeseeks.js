@@ -14,7 +14,7 @@ function help_info(prefix) {
   help["command"] = command;
   help[
     "help"
-  ] = `Typing \`${prefix}meeseeks\` anytime will summon a meeseeks from the box.`;
+  ] = `Summon a meeseeks from the box`;
 
   return help;
 }
@@ -31,7 +31,7 @@ function logic() {
 function execute(args) {
   return new Promise((resolve, reject) => {
     let choice = logic();
-    resolve(`<@${args.client}>   Meeseeks - * ${choice}*`);
+    resolve(`<@${args.client}>   Meeseeks - *${choice}*`);
   });
 }
 
@@ -43,7 +43,15 @@ function get() {
   });
 }
 
+function get_slash() {
+  return {
+    name: command,
+    description: help_info("/").help,
+  }
+}
+
 module.exports.execute = execute;
 module.exports.help_info = help_info;
 module.exports.command = command;
 module.exports.get = get;
+module.exports.get_slash = get_slash;

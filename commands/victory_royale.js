@@ -1,11 +1,9 @@
-var cmd = "royale";
+var command = "royale";
 
 function help_info(prefix) {
   var help = {};
-  help["command"] = cmd;
-  help[
-    "help"
-  ] = `List people who have won a solo game on Fortnite. Usage \`${prefix}${cmd}\``;
+  help["command"] = command;
+  help["help"] = `List people who have won a solo game on Fortnite`;
 
   return help;
 }
@@ -51,7 +49,15 @@ function get() {
   });
 }
 
+function get_slash() {
+  return {
+    name: command,
+    description: help_info("/").help,
+  }
+}
+
 module.exports.execute = execute;
 module.exports.help_info = help_info;
-module.exports.command = cmd;
+module.exports.command = command;
 module.exports.get = get;
+module.exports.get_slash = get_slash;

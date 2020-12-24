@@ -6,7 +6,7 @@ var command = "meow";
 function help_info(prefix) {
   var help = {};
   help["command"] = command;
-  help["help"] = `Get a random kirry. Usage: \`${prefix}meow\``;
+  help["help"] = `Get a random kirry`;
 
   return help;
 }
@@ -55,7 +55,15 @@ function get() {
   });
 }
 
+function get_slash() {
+  return {
+    name: command,
+    description: help_info("/").help,
+  }
+}
+
 module.exports.execute = execute;
 module.exports.help_info = help_info;
 module.exports.command = command;
 module.exports.get = get;
+module.exports.get_slash = get_slash;

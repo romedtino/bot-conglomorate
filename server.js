@@ -21,7 +21,7 @@ commandList.push(require('./commands/slap.js'));
 commandList.push(require('./commands/clip.js'));
 commandList.push(require('./commands/evan.js'));
 commandList.push(require('./commands/victory_royale.js'));
-commandList.push(require('./commands/mb.js'));
+commandList.push(require('./commands/myerb.js'));
 commandList.push(require('./commands/brazzers.js'));
 commandList.push(require('./commands/4th.js'));
 commandList.push(require('./commands/weow.js'));
@@ -52,6 +52,13 @@ for(let i=0;i<commandList.length;++i) {
     })
       .catch( err => console.log(err) );
     
+  });
+
+  //Return discord slash command data
+  app.post(`/${commandList[i].command}/get_slash`, function(request, response) {
+    let result = commandList[i].get_slash();
+    console.log(result);
+    response.send(result);
   });
 }
 

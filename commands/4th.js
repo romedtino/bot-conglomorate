@@ -1,6 +1,7 @@
 var Datastore = require("nedb");
 const editly = require('editly');
 const path = require("path");
+const { existsSync } = require("fs");
 
 var out_dir = "/usr/share/hassio/homeassistant/www";
 var data_dir = "/home/dark/discord_bots/bot-conglomorate/data";
@@ -12,6 +13,13 @@ const summons = [
   "https://i.kym-cdn.com/photos/images/facebook/001/337/716/1b5.jpg",
   "https://gfycat.com/dearsadalpaca"
 ];
+
+const rand_names = [
+  "Kratos",
+  "Ori",
+  "Gordon",
+  "Lara"
+]
 
 const squad_names = [
   "**J**ust **B**uild **B**ro",
@@ -26,16 +34,10 @@ const squad_names = [
 const total = 4;
 const timeout_sec = 30 * 60;
 
-var cached_gifs = {
-  first: "",
-  second: "",
-  third: "",
-}
-
-var vid_layers = [ "./first.gif",
-"./second.gif",
-"./third.gif",
-"./fourth.gif" ];
+var vid_layers = [ "first.gif",
+"second.gif",
+"third.gif",
+"fourth.gif" ];
 
 var command = "4th";
 
@@ -63,13 +65,15 @@ function reset() {
 function generate_gif(index) {
   return new Promise( (resolve, reject) => {
      
+      last_to_join = joined[joined.length-1];
+      file_joined_name = joined.join("_") + "_" + vid_layers[index];
 
-      output_path = path.join(out_dir, vid_layers[index]);
+      output_path = path.join(out_dir, file_joined_name);
       font_loc = path.join(data_dir, "./avengers.ttf");
       layer_specs = [
-          [{ type: 'title', text: joined[joined.length-1], start: 0, stop: 3.7, zoomDirection: "in", zoomAmount: 0.5, position: "center" }],
-          [{ type: 'title', text: joined[joined.length-1], start: 3, zoomDirection: "in", zoomAmount: 0.5, position: "center" }],
-          [{ type: 'title', text: joined[joined.length-1], start: 3.5, zoomDirection: "in", zoomAmount: 0.5, position: "center" }],
+          [{ type: 'title', text: last_to_join, start: 0, stop: 3.7, zoomDirection: "in", zoomAmount: 0.5, position: "center" }],
+          [{ type: 'title', text: last_to_join, start: 3, zoomDirection: "in", zoomAmount: 0.5, position: "center" }],
+          [{ type: 'title', text: last_to_join, start: 3.5, zoomDirection: "in", zoomAmount: 0.5, position: "center" }],
           [
               //hardcoded lol but I MEAN ITS CALLED 4th! 4!!!
               { type: 'title', text: ` ${joined[0]}`, start: 0, stop: 1.2, zoomDirection: "out", zoomAmount: 1, position: {originX:"left", originY: "top", x: 0.1, y: 0.4} },
@@ -99,7 +103,7 @@ function generate_gif(index) {
   
       editly(editSpec)
           .then( () => {
-              resolve(vid_layers[index]);
+              resolve(file_joined_name);
           })
           .catch( e=> {
               console.log("generate_gif:", e);
@@ -116,14 +120,25 @@ function logic() {
   return summons[rotateIdx++ % summons.length];
 }
 
+function check_cached() {
+  file_joined_name = joined.join("_") + "_" + vid_layers[rotateIdx-1];
+
+  output_path = path.join(out_dir, file_joined_name);
+
+  if(existsSync(output_path)) {
+    return file_joined_name;
+  } else {
+    return null;
+  }
+
+}
+
 function avenge_logic() {
   return new Promise ( (resolve, reject) => {
-    if(rotateIdx < 3 && cached_gifs[rotateIdx-1] == joined[joined.length-1]) {
-      //already there return cached gif
-      output_path = path.join(out_dir, vid_layers[rotateIdx-1]);
-      resolve(output_path);
+    cached = check_cached();
+    if(cached != null) {
+      resolve(host_url + cached);
     } else {
-      cached_gifs[rotateIdx-1] = joined[joined.length-1];
       generate_gif(rotateIdx-1)
       .then( filename => {
         resolve(host_url + filename);
@@ -183,6 +198,10 @@ function execute(args) {
           joined.push(`${args.username}`);
           rotateIdx++;
         } else {
+          //Debug - begin
+          // if (!joined.includes(`${rand_names[rotateIdx]}`)) {
+          //   joined.push(`${rand_names[rotateIdx]}`);
+          //Debug - end
           if (!joined.includes(`${args.username}`)) {
             joined.push(`${args.username}`);
             rotateIdx++;
@@ -210,13 +229,13 @@ function execute(args) {
 
           let squad_mems = "";
           joined.forEach(entry => (squad_mems += `\`${entry}\` `));
-          res_text += ` Type \`/4th\` to join the call to arms!\nSquad  [[ ${squad_name} ]] members:\n ${squad_mems}\n`;
-
+          // res_text += ` Type \`/4th\` to join the call to arms!\nSquad  [[ ${squad_name} ]] members:\n ${squad_mems}\n`;
+          res_text += ` Type \`/4th\` to join the call to arms!\nSquad  [[ ${squad_name} ]] members:\n ${squad_mems}\n${result}`;
           jsonified = {
             "text": res_text,
             "attachment":result,
           }
-          resolve(JSON.stringify(jsonified));
+          resolve(res_text);
         })
         .catch(console.error);
         

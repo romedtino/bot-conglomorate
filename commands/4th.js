@@ -1,6 +1,7 @@
 var Datastore = require("nedb");
 const editly = require('editly');
 const path = require("path");
+const url = require('url');
 const { existsSync } = require("fs");
 
 var out_dir = "/usr/share/hassio/homeassistant/www";
@@ -230,11 +231,13 @@ function execute(args) {
           let squad_mems = "";
           joined.forEach(entry => (squad_mems += `\`${entry}\` `));
           // res_text += ` Type \`/4th\` to join the call to arms!\nSquad  [[ ${squad_name} ]] members:\n ${squad_mems}\n`;
-          res_text += ` Type \`/4th\` to join the call to arms!\nSquad  [[ ${squad_name} ]] members:\n ${squad_mems}\n${result}`;
-          jsonified = {
-            "text": res_text,
-            "attachment":result,
-          }
+          clean_url =  new url.URL(result);
+          res_text += ` Type \`/4th\` to join the call to arms!\nSquad  [[ ${squad_name} ]] members:\n ${squad_mems}\n${clean_url.href}`;
+          
+          // jsonified = {
+          //   "text": res_text,
+          //   "attachment":clean_url,
+          // }
           resolve(res_text);
         })
         .catch(console.error);

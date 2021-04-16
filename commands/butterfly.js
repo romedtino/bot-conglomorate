@@ -61,7 +61,7 @@ function get() {
         output_path = out_dir + "butterfly.jpg";
         butterfly("username", "butterfly", "Is this how it would look?", output_path)
         .then(result => {
-        resolve(`<img width="480" src="${host_path + "butterfly.jpg"}"/>`);
+        resolve(`<img width="480" src="${host_url + "butterfly.jpg"}"/>`);
         })
         .catch(e => console.log(e));
     });

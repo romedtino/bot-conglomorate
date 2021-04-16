@@ -9,6 +9,9 @@ var brazzersLogoURL = "https://i.imgur.com/gSnHoXE.jpg";
 //default if none is used
 var defaultURL = "https://i.imgur.com/s5AUpuY.jpg";
 
+const out_dir = "/usr/share/hassio/homeassistant/www/";
+const host_url = "https://darkhq.duckdns.org/local/";
+
 //output/staging directory
 var outputDir = "/tmp";
 
@@ -29,10 +32,8 @@ function brazzme(url) {
       tmpFilename = "https://i.imgur.com/s5AUpuY.jpg";
     }
 
-    var seconds = new Date() / 1000;
-    const outfile = `/tmp/brazzers${seconds}.jpg`;
+    const outfile = `${out_dir}brazzers.jpg`;
 
-    var brazzersLogoURL = "https://i.imgur.com/gSnHoXE.jpg";
     jimp
       .read(brazzersLogoURL)
       .then(image => {
@@ -46,22 +47,23 @@ function brazzme(url) {
               targetImg.bitmap.height - image.bitmap.height - 20
             );
             targetImg.write(outfile, () => {
-              imgur.setClientId(process.env.IMGUR_CLIENT);
-              imgur.setCredentials(
-                process.env.IMGUR_USR,
-                process.env.IMGUR_PW,
-                process.env.IMGUR_CLIENT
-              );
-              imgur
-                .uploadFile(outfile, album)
-                .then(function(json) {
-                  console.log(json.data.link);
-                  resolve(`${json.data.link}`);
-                })
-                .catch(err => {
-                  console.error(err.message);
-                  reject(err.message);
-                });
+              // imgur.setClientId(process.env.IMGUR_CLIENT);
+              // imgur.setCredentials(
+              //   process.env.IMGUR_USR,
+              //   process.env.IMGUR_PW,
+              //   process.env.IMGUR_CLIENT
+              // );
+              // imgur
+              //   .uploadFile(outfile, album)
+              //   .then(function(json) {
+              //     console.log(json.data.link);
+              //     resolve(`${json.data.link}`);
+              //   })
+              //   .catch(err => {
+              //     console.error(err.message);
+              //     reject(err.message);
+              //   });
+              resolve(`${host_url}brazzers.jpg`);
             });
           })
           .catch(e => console.log(e));
@@ -72,9 +74,14 @@ function brazzme(url) {
 
 function execute(args) {
   return new Promise((resolve, reject) => {
-    brazzme(args.args)
+    console.log("brazzin:", args.raw_opt[0].value);
+    brazzme(args.raw_opt[0].value)
       .then(result => {
-        resolve(`<@${args.client}> - ${result}`);
+        jsonified = {
+          "text": `<@${args.client}> saw this pr0n`,
+          "attachment": result,
+        }
+        resolve(JSON.stringify(jsonified));
       })
       .catch(e => console.log(e));
   });

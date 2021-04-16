@@ -2,6 +2,7 @@ var request = require("request");
 var command = "clip";
 
 var twitchAPI = "https://api.twitch.tv/helix";
+var twitchAuthUri = "https://id.twitch.tv/oauth2/token";
 var latestClipURL = "";
 var latestClipMilli = null;
 var mainUser = "";
@@ -21,12 +22,13 @@ function reset() {
   latestClipMilli = null;
 }
 
-var twitchClipsRequest = function(args, extraParams) {
+var twitchClipsRequest = function(args, extraParams, auth_token) {
   return new Promise((resolve, reject) => {
     var options = {
       url: twitchAPI + "/clips?" + mainUser + clipCount + extraParams,
       json: true,
       headers: {
+        "Authorization": `Bearer ${auth_token}`,
         "Client-ID": process.env.TWITCH_TOKEN
       }
     };
@@ -42,7 +44,7 @@ var twitchClipsRequest = function(args, extraParams) {
 
       if (body.pagination.cursor != null) {
         var paginator = "&after=" + body.pagination.cursor;
-        twitchClipsRequest(args, paginator).then(result => {
+        twitchClipsRequest(args, paginator, auth_token).then(result => {
           resolve(result);
         });
       } else {
@@ -54,34 +56,52 @@ var twitchClipsRequest = function(args, extraParams) {
   });
 };
 
+function checkGetAccessToken()
+{
+  return new Promise( (resolve, reject) => {
+    let access_token = "";
+    uri = twitchAuthUri + `?client_id=${process.env.TWITCH_TOKEN}&client_secret=${process.env.TWITCH_SECRET}&grant_type=client_credentials`
+    request.post(uri, (err, resp, body) => {
+      json_parsed = JSON.parse(body);
+      resolve(json_parsed.access_token);
+    });  
+  });
+}
+
 var getIdAndClip = function(args) {
   return new Promise((resolve, reject) => {
     
-    if(!login || login === ""){
-      login = "nickmercs";
-    }
-    
-    var options = {
-      url: twitchAPI + "/users?login=" + login,
-      json: true,
-      headers: {
-        "Client-ID": process.env.TWITCH_TOKEN
+    checkGetAccessToken()
+    .then( auth_token => {
+      if(!login || login === ""){
+        login = "nickmercs";
       }
-    };
-    request(options, function(error, response, body) {
-      if (body.data.length <= 0) {
-        resolve(`We didn't find a user with the name ${login}`);
-      } else {
-        var bcastId = body.data[0].id;
-        mainUser = "broadcaster_id=" + bcastId;
-        console.log(mainUser);
-        twitchClipsRequest(args, "")
-          .then(result => {
-            resolve(result);
-          })
-          .catch(err => console.log(err));
-      }
-    });
+      
+      var options = {
+        url: twitchAPI + "/users?login=" + login,
+        json: true,
+        headers: {
+          "Authorization": `Bearer ${auth_token}`,
+          "Client-ID": process.env.TWITCH_TOKEN
+        }
+      };
+      request(options, function(error, response, body) {
+        console.log("body:", body);
+        if (body.data.length <= 0) {
+          resolve(`We didn't find a user with the name ${login}`);
+        } else {
+          var bcastId = body.data[0].id;
+          mainUser = "broadcaster_id=" + bcastId;
+          console.log(mainUser);
+          twitchClipsRequest(args, "", auth_token)
+            .then(result => {
+              resolve(result);
+            })
+            .catch(err => console.log(err));
+        }
+      });
+    })
+    .catch(console.error);
   });
 };
 

@@ -7,9 +7,8 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 var cors = require('cors');
-var bodyParser = require('body-parser');
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(express.json()); // support json encoded bodies
+app.use(express.urlencoded({ extended: true })); // support encoded bodies
 app.use(cors()); //enable cors
 
 const commandList = [];

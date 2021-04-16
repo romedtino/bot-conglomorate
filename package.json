@@ -20,8 +20,8 @@
     "nedb": "^1.8.0",
     "path": "^0.12.7",
     "request": "^2.88.0",
-    "socket.io": "^2.3.0",
-    "socket.io-client": "^2.3.0",
+    "socket.io": "^4.0.1",
+    "socket.io-client": "^4.0.1",
     "url": "^0.11.0"
   },
   "engines": {

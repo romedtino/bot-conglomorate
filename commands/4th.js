@@ -3,6 +3,7 @@ const editly = require('editly');
 const path = require("path");
 const url = require('url');
 const { existsSync } = require("fs");
+var gl = require('gl')(640, 360);
 
 var out_dir = "/usr/share/hassio/homeassistant/www";
 var data_dir = "/home/dark/discord_bots/bot-conglomorate/data";

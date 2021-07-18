@@ -25,6 +25,7 @@ commandList.push(require('./commands/brazzers.js'));
 commandList.push(require('./commands/4th.js'));
 commandList.push(require('./commands/weow.js'));
 commandList.push(require('./commands/butterfly.js'));
+commandList.push(require('./commands/wzwin.js'));
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 

@@ -5,9 +5,9 @@ const url = require('url');
 const { existsSync } = require("fs");
 var gl = require('gl')(640, 360);
 
-var out_dir = "/usr/share/hassio/homeassistant/www";
-var data_dir = "/home/dark/discord_bots/bot-conglomorate/data";
-var host_url = "https://darkhq.duckdns.org/local/";
+var out_dir = "/usr/share/hassio/homeassistant/www/4th";
+var data_dir = "/home/dark/discord_bots/bot-conglomorate/data/4th";
+var host_url = "https://darkhq.duckdns.org/local/4th/";
 
 const summons = [
   "https://cdn.discordapp.com/attachments/463864401011671050/533917047495589888/PicsArt_01-12-11.41.34.jpg",

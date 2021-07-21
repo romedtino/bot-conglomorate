@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
     name: 'congo',
-    script: 'server.js',
+    script: 'server.mjs',
     env: {
       PORT: 3123,
       DISPLAY: ":99"

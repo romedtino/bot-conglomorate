@@ -6,11 +6,11 @@ var summons = [
   "https://i.redd.it/cec6z49n29841.jpg"
 ];
 
-var command = "weow";
+export var command = "weow";
 
 var rotateIdx = 0;
 
-function help_info(prefix) {
+export function help_info(prefix) {
   var help = {};
   help["command"] = command;
   help["help"] = `Owen Wilson says 'weow'`;
@@ -22,29 +22,19 @@ function logic() {
   return summons[rotateIdx++ % summons.length];
 }
 
-function execute(args) {
-  return new Promise((resolve, reject) => {
-    var choice = logic();
-    resolve(`<@${args.client}> says, "Wow"!\n${choice}`);
-  });
+export async function execute(args) {
+  const choice = logic();
+  return `<@${args.client}> says, "Wow"!\n${choice}`;
 }
 
-function get() {
-  return new Promise(resolve => {
-    var choice = logic();
-    resolve(`botcongo says, "Wow"! ${choice}`);
-  });
+export async function get() {
+  return `botcongo says, "Wow"! ${choice}`;
+  
 }
 
-function get_slash() {
+export function get_slash() {
   return {
     name: command,
     description: help_info("/").help,
   }
 }
-
-module.exports.execute = execute;
-module.exports.help_info = help_info;
-module.exports.command = command;
-module.exports.get = get;
-module.exports.get_slash = get_slash;

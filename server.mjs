@@ -2,30 +2,53 @@
 // where your node app starts
 
 // init project
-const express = require('express');
+import express from 'express';
+import cors from 'cors';
+import http from 'http';
+import { Server } from 'socket.io';
+
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-var cors = require('cors');
+const http_server = http.Server(app);
+const socket_serv = new Server(http_server);
+
 app.use(express.json()); // support json encoded bodies
 app.use(express.urlencoded({ extended: true })); // support encoded bodies
 app.use(cors()); //enable cors
 
+//explicit inclusion
+import * as bark from './commands/bark.mjs';
+import * as meow from './commands/meow.mjs';
+import * as meeseeks from './commands/meeseeks.mjs';
+import * as fart from './commands/fart.mjs';
+import * as slap from './commands/slap.mjs';
+import * as clip from './commands/clip.mjs';
+import * as evan from './commands/evan.mjs';
+import * as brazzers from './commands/brazzers.mjs';
+import * as fourth from './commands/4th.mjs';
+import * as weow from './commands/weow.mjs';
+import * as butterfly from './commands/butterfly.mjs';
+import * as wzwin from './commands/wzwin.mjs';
+
 const commandList = [];
-commandList.push(require('./commands/bark.js'));
-commandList.push(require('./commands/meow.js'));
-commandList.push(require('./commands/meeseeks.js'));
-commandList.push(require('./commands/fart.js'));
-commandList.push(require('./commands/slap.js'));
-commandList.push(require('./commands/clip.js'));
-commandList.push(require('./commands/evan.js'));
-commandList.push(require('./commands/victory_royale.js'));
-commandList.push(require('./commands/myerb.js'));
-commandList.push(require('./commands/brazzers.js'));
-commandList.push(require('./commands/4th.js'));
-commandList.push(require('./commands/weow.js'));
-commandList.push(require('./commands/butterfly.js'));
-commandList.push(require('./commands/wzwin.js'));
+commandList.push(bark);
+commandList.push(meow);
+commandList.push(meeseeks);
+commandList.push(fart);
+commandList.push(slap);
+commandList.push(clip);
+commandList.push(evan);
+// commandList.push(require('./commands/victory_royale.js'));
+// commandList.push(require('./commands/myerb.js'));
+commandList.push(brazzers);
+commandList.push(fourth);
+commandList.push(weow);
+commandList.push(butterfly);
+commandList.push(wzwin);
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
@@ -38,7 +61,7 @@ app.get('/', function(request, response) {
 });
 
 for(let i=0;i<commandList.length;++i) {
-  
+  console.log(commandList[i].command);
   //Populate help endpoints
   app.get(`/${commandList[i].command}/help`, function(request, response) {
     response.send(commandList[i].help_info(request.query.prefix));
@@ -63,7 +86,7 @@ for(let i=0;i<commandList.length;++i) {
   });
 }
 
-io.on('connection', function(socket) {
+socket_serv.on('connection', function(socket) {
   console.log('User connected.');
   for(let i=0;i<commandList.length;++i) {
     
@@ -84,6 +107,6 @@ io.on('connection', function(socket) {
 });
 
 // listen for requests :)
-const listener = http.listen(process.env.PORT, function() {
+const listener = http_server.listen(process.env.PORT, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });

@@ -7,9 +7,9 @@ var meesay = [
   "Your failures are your own, old man. I'm Mr. Meeseeks!"
 ];
 
-var command = "meeseeks";
+export var command = "meeseeks";
 
-function help_info(prefix) {
+export function help_info(prefix) {
   var help = {};
   help["command"] = command;
   help[
@@ -28,30 +28,28 @@ function logic() {
   return meesay[meeChoice];
 }
 
-function execute(args) {
-  return new Promise((resolve, reject) => {
-    let choice = logic();
-    resolve(`<@${args.client}>   Meeseeks - *${choice}*`);
-  });
+export async function execute(args) {
+  try {
+    const choice = await logic();
+    return `<@${args.client}>   Meeseeks - *${choice}*`;
+  } catch(error) {
+    console.log(error);
+  }
+
 }
 
-function get() {
-  return new Promise(resolve => {
-    let choice = logic();
-
-    resolve(`Meeseeks - ${choice}`);
-  });
+export async function get() {
+  try {
+    const choice = await logic();
+    return `Meeseeks - ${choice}`;
+  } catch(error) {
+    console.log(error);
+  }
 }
 
-function get_slash() {
+export function get_slash() {
   return {
     name: command,
     description: help_info("/").help,
   }
 }
-
-module.exports.execute = execute;
-module.exports.help_info = help_info;
-module.exports.command = command;
-module.exports.get = get;
-module.exports.get_slash = get_slash;

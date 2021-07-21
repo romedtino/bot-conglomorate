@@ -7,7 +7,7 @@
   "description": "A conglomoration of chat bot commands",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.mjs"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -16,11 +16,11 @@
     "express": "^4.17.1",
     "ffprobe": "^1.1.2",
     "gl": "^4.9.0",
+    "got": "^11.8.2",
     "imgur": "^1.0.2",
     "jimp": "^0.16.1",
     "nedb": "^1.8.0",
     "path": "^0.12.7",
-    "request": "^2.88.2",
     "socket.io": "^4.1.3",
     "socket.io-client": "^4.1.3",
     "url": "^0.11.0"

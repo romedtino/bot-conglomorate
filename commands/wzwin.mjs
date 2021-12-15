@@ -39,7 +39,7 @@ async function generate_anchorman(names) {
     let layer = [{ type: 'video', path: path.join(data_dir, "anchorman.gif")}];
     if(names.length > 0) {
         console.log("Adding:", names[0]);
-        layer.push({ type: 'title', text: names[0], position: {originX:"left", originY: "top", x: 0.04, y: 0.6}, zoomDirection: "null", zoomAmount: 0 });
+        layer.push({ type: 'title', text: names[0], position: {originX:"left", originY: "top", x: 0.0, y: 0.6}, zoomDirection: "null", zoomAmount: 0 });
     }
     if(names.length > 1) {
         console.log("Adding:", names[1]);
@@ -189,11 +189,11 @@ async function generate_therock(names) {
     }
     if(names.length > 2) {
         console.log("Adding:", names[2]);
-        layer.push({ type: 'title', text: names[2], position: { x: -0.25, y: 0.6}, zoomDirection: "null", zoomAmount: 0 });
+        layer.push({ type: 'title', text: names[2], position: { x: -0.18, y: 0.6}, zoomDirection: "null", zoomAmount: 0 });
     }
     if(names.length > 3) {
         console.log("Adding:", names[3]);
-        layer.push({ type: 'title', text: names[3], position: { x: 0.3, y: 0.6}, zoomDirection: "null", zoomAmount: 0 });
+        layer.push({ type: 'title', text: names[3], position: { x: 0.31, y: 0.6}, zoomDirection: "null", zoomAmount: 0 });
     }
 
     layer.push({ type: 'title', text: "CAGE VICTORY", position: { x: 0.1, y: 0.8}, zoomDirection: "null", zoomAmount: 0 });
@@ -223,7 +223,14 @@ async function generate_therock(names) {
 }
 
 export async function execute(args) {
-    let message = `**!! HONORABLE VICTORY !!** \n${sub_text[randRange(0, sub_text.length)]}\n!! `
+    let def_text = "HONORABLE VICTORY";
+    console.log(`ARGS: (${JSON.stringify(args)}`)
+    console.log(`DEF 1: ${def_text}`)
+    if (args.args.real !== undefined) {
+        def_text = "VICTORY";
+    }
+    console.log(`DEF 2: ${def_text}`)
+    let message = `**!! ${def_text} !!** \n${sub_text[randRange(0, sub_text.length)]}\n!! `
     let cleaned_names = [];
 
     for(let i=0;i<args.raw_opt.length;i++) {
@@ -235,6 +242,8 @@ export async function execute(args) {
     }
 
     let generator = generators[randRange(0, generators.length)];
+    //DEBUG
+    // let generator = generators[3];
     try {
         const url = await generator(cleaned_names);
         for(let i=0;i<args.raw_opt.length;i++) {

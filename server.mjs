@@ -33,6 +33,7 @@ import * as fourth from './commands/4th.mjs';
 import * as weow from './commands/weow.mjs';
 import * as butterfly from './commands/butterfly.mjs';
 import * as wzwin from './commands/wzwin.mjs';
+import * as jiggle from './commands/jiggle.mjs';
 
 const commandList = [];
 commandList.push(bark);
@@ -49,6 +50,7 @@ commandList.push(fourth);
 commandList.push(weow);
 commandList.push(butterfly);
 commandList.push(wzwin);
+commandList.push(jiggle);
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
